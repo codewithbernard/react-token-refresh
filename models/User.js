@@ -1,9 +1,9 @@
-import mongoose, { Schema } from "mongoose";
-import bcrypt from "bcrypt-nodejs";
+const mongoose = require("mongoose");
+const bcrypt = require("bcrypt-nodejs");
 
 // No need to export mongoose code. Mongoose can be confused when trying
 // to create multiple models with same name
-const userSchema = new Schema({
+const userSchema = new mongoose.Schema({
   fullName: { type: String, required: true },
   email: { type: String, required: true },
   password: { type: String, required: true },

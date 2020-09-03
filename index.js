@@ -1,12 +1,14 @@
-import http from "http";
-import express from "express";
-import bodyParser from "body-parser";
-import passport from "passport";
+const http = require("http");
+const express = require("express");
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+// const passport = require("passport");
 
-import config from "./config";
+const config = require("./config");
+const routes = require("./routes");
 
 // Initialize mongo mondels and connect to database
-require("./models");
+// require("./models");
 mongoose.connect(config.mongoURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -25,8 +27,9 @@ app.use(
   })
 );
 
+// Routes
+routes(app);
+
 app.server.listen(process.env.PORT || config.port, () => {
   console.log(`Started on port ${app.server.address().port}`);
 });
-
-export default app;
