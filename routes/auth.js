@@ -14,7 +14,10 @@ module.exports = (app) => {
     "/auth/signup",
     passport.authenticate("signup", { session: false }),
     (req, res) => {
-      return res.json(req.user);
+      return res.json({
+        user: req.user,
+        token: user.generateToken(req.user),
+      });
     }
   );
 
@@ -22,12 +25,9 @@ module.exports = (app) => {
     "/auth/signin",
     passport.authenticate("signin", { session: false }),
     (req, res) => {
-      req.login(req.user, { session: false }, (error) => {
-        if (error) return next(error);
-        return res.json({
-          user: req.user,
-          token: user.generateToken(req.user),
-        });
+      return res.json({
+        user: req.user,
+        token: user.generateToken(req.user),
       });
     }
   );
