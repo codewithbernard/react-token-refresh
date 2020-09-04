@@ -2,7 +2,6 @@ const http = require("http");
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-// const passport = require("passport");
 
 const config = require("./config");
 const routes = require("./routes");
@@ -22,7 +21,7 @@ app.server = http.createServer(app);
 
 // Parsers
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json({}));
+app.use(bodyParser.json());
 
 // Initialize passport
 require("./services/passport");
