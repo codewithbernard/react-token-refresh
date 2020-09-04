@@ -4,7 +4,6 @@ const bcrypt = require("bcrypt-nodejs");
 // No need to export mongoose code. Mongoose can be confused when trying
 // to create multiple models with same name
 const userSchema = new mongoose.Schema({
-  fullName: { type: String, required: true },
   email: { type: String, required: true },
   password: { type: String, required: true },
 });
@@ -14,14 +13,19 @@ userSchema.set("toJSON", {
   virtuals: true,
   transform: (doc, ret, opt) => {
     delete ret["password"];
+    delete ret["_id"];
+    delete ret["__v"];
     return ret;
   },
 });
 
-// generating a hash
-userSchema.methods.generateHash = function (password) {
-  return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
-};
+userSchema.pre("save", function (next) {
+  // Hash the password with a salt
+  const hash = bcrypt.hashSync(this.password, bcrypt.genSaltSync(8), null);
+  this.password = hash;
+
+  next();
+});
 
 // checks if password is valid
 userSchema.methods.validPassword = function (password) {

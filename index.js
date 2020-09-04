@@ -8,7 +8,7 @@ const config = require("./config");
 const routes = require("./routes");
 
 // Initialize mongo mondels and connect to database
-// require("./models");
+require("./models");
 mongoose.connect(config.mongoURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -21,11 +21,11 @@ let app = express();
 app.server = http.createServer(app);
 
 // Parsers
-app.use(
-  bodyParser.json({
-    limit: config.bodyLimit,
-  })
-);
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json({}));
+
+// Initialize passport
+require("./services/passport");
 
 // Routes
 routes(app);

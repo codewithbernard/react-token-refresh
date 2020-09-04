@@ -1,1 +1,1 @@
-import User from "./User";
+require("./User");
