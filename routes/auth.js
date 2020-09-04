@@ -1,5 +1,4 @@
 const passport = require("passport");
-
 const user = require("../controllers/user");
 
 module.exports = (app) => {
@@ -7,7 +6,7 @@ module.exports = (app) => {
     "/auth",
     passport.authenticate("jwt", { session: false }),
     (req, res) => {
-      return res.send(req.user);
+      return res.json(req.user);
     }
   );
 
@@ -23,7 +22,13 @@ module.exports = (app) => {
     "/auth/signin",
     passport.authenticate("signin", { session: false }),
     (req, res) => {
-      return res.json(req.user);
+      req.login(req.user, { session: false }, (error) => {
+        if (error) return next(error);
+        return res.json({
+          user: req.user,
+          token: user.generateToken(req.user),
+        });
+      });
     }
   );
 
