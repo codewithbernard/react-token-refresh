@@ -66,7 +66,6 @@ passport.use(
     },
     (token, done) => {
       if (token) return done(null, token.user);
-
       return done(error);
     }
   )
