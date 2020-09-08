@@ -60,7 +60,7 @@ passport.use(
 passport.use(
   new JWTstrategy(
     {
-      secretOrKey: config.secret,
+      secretOrKey: config.accessTokenSecret,
       // Extract token from request
       jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
     },
